@@ -74,8 +74,8 @@ podman build -t ai-agents .
 
 podman login docker.io
 
-podman tag ai-agents tuxfy/ai-agents:1.1.0 &&
+podman tag ai-agents tuxfy/ai-agents:1.2.0 &&
 podman tag ai-agents tuxfy/ai-agents:latest &&
-podman push tuxfy/ai-agents:1.1.0 &&
+podman push tuxfy/ai-agents:1.2.0 &&
 podman push tuxfy/ai-agents:latest
 ```
