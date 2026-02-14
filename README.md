@@ -1,29 +1,19 @@
-Build:
+## Run from Docker Hub:
 
-```
-podman build -t code-agents .
-```
-
-Run (Podman, rootless, bridge network, project mounted at /workspace):
-
-```
-ich
-```
-
-Run (Docker, bridge network, project mounted at /workspace):
+### Docker
 
 ```
 docker run --rm -it \
   --network bridge \
   --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=tmpfs,target=/workspace/.env \
-  --mount type=tmpfs,target=/workspace/.env.local \
+  --mount target=/workspace/.env \
+  --mount target=/workspace/.env.local \
   --mount type=tmpfs,target=/workspace/config/secrets \
-  code-agents
+  tuxfy/ai-agents:latest
 ```
 
-Mask sensitive files inside the container (examples):
+### Podman
 
 ```
 podman run --rm -it \
@@ -33,38 +23,33 @@ podman run --rm -it \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
-  code-agents
+  tuxfy/ai-agents:latest
 ```
 
-Run Codex in interactive approval mode (confirm commands manually):
-
-```
-codex
-```
-
-Pull from Docker Hub:
-
-```
-podman pull <DOCKERHUB_USER>/<REPO_NAME>:<TAG>
-```
-
-Run from Docker Hub:
-
-```
-podman run --rm -it \
-  --network bridge \
-  --userns=keep-id \
-  --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=tmpfs,target=/workspace/.env \
-  --mount type=tmpfs,target=/workspace/.env.local \
-  --mount type=tmpfs,target=/workspace/config/secrets \
-  <DOCKERHUB_USER>/<REPO_NAME>:<TAG>
-```
-
-Secret masking checklist (common patterns to consider):
+## Secret masking checklist (common patterns to consider):
 
 -   `.env`, `.env.*`, `.env.local`
 -   `config/secrets`, `config/secrets/*`
 -   `secrets`, `secrets/*`
 -   `*.pem`, `*.key`, `*.p12`
 -   `*.json` if it contains credentials (service accounts, cloud keys)
+
+## Build from Docker Hub:
+
+```
+docker pull tuxfy/ai-agents:latest
+podman pull tuxfy/ai-agents:latest
+```
+
+Build:
+
+```
+podman build -t code-agents .
+
+podman login docker.io
+
+podman tag code-agents tuxfy/ai-agents:1.0.1 &&
+podman tag code-agents tuxfy/ai-agents:latest &&
+podman push tuxfy/ai-agents:1.0.1 &&
+podman push tuxfy/ai-agents:latest
+```
