@@ -7,8 +7,7 @@ docker run --rm -it \
   --network bridge \
   --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
-  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  --mount type=volume,source=ai-agents,target=/home/agent \
   tuxfy/ai-agents:latest
 ```
 
@@ -19,8 +18,7 @@ podman run --rm -it \
   --network bridge \
   --userns=keep-id \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
-  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  --mount type=volume,source=ai-agents,target=/home/agent \
   tuxfy/ai-agents:latest
 ```
 
@@ -33,8 +31,7 @@ docker run --rm -it \
   --network bridge \
   --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
-  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
@@ -48,8 +45,7 @@ podman run --rm -it \
   --network bridge \
   --userns=keep-id \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
-  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
@@ -74,12 +70,12 @@ podman pull tuxfy/ai-agents:latest
 Build:
 
 ```
-podman build -t code-agents .
+podman build -t ai-agents .
 
 podman login docker.io
 
-podman tag code-agents tuxfy/ai-agents:1.0.3 &&
-podman tag code-agents tuxfy/ai-agents:latest &&
-podman push tuxfy/ai-agents:1.0.3 &&
+podman tag ai-agents tuxfy/ai-agents:1.1.0 &&
+podman tag ai-agents tuxfy/ai-agents:latest &&
+podman push tuxfy/ai-agents:1.1.0 &&
 podman push tuxfy/ai-agents:latest
 ```

@@ -14,8 +14,8 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
  && apt-get install -y nodejs
 
-# --- Install Codex CLI ---
-RUN npm install -g @openai/codex \
+# --- Install Codex CLI + Claude Code ---
+RUN npm install -g @openai/codex @anthropic-ai/claude-code \
  && rm -rf /usr/lib/node_modules/npm \
  && rm -f /usr/bin/npm \
  && rm -f /usr/bin/npx
@@ -29,8 +29,12 @@ RUN pipx install mistral-vibe
 RUN git config --system --add safe.directory /workspace
 
 RUN useradd -m -u 1000 -s /bin/bash agent \
- && mkdir -p /workspace /home/agent/.codex /home/agent/.vibe \
- && chown -R agent:agent /workspace /home/agent/.codex /home/agent/.vibe
+ && mkdir -p /workspace /home/agent/.codex /home/agent/.vibe /home/agent/.claude \
+ && chown -R agent:agent /workspace /home/agent/.codex /home/agent/.vibe /home/agent/.claude
+
+RUN mkdir -p /etc/claude-code
+COPY .claude/managed-settings.json /etc/claude-code/managed-settings.json
+RUN chmod 0644 /etc/claude-code/managed-settings.json
 
 # --- Seed default configs in the agent home ---
 COPY --chown=agent:agent .codex/config.toml /home/agent/.codex/config.toml
