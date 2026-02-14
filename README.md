@@ -1,4 +1,4 @@
-## Run from Docker Hub:
+## Run from Docker Hub with shared token:
 
 ### Docker
 
@@ -7,8 +7,36 @@ docker run --rm -it \
   --network bridge \
   --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
-  --mount target=/workspace/.env \
-  --mount target=/workspace/.env.local \
+  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
+  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  tuxfy/ai-agents:latest
+```
+
+### Podman
+
+```
+podman run --rm -it \
+  --network bridge \
+  --userns=keep-id \
+  --mount type=bind,source="$PWD",target=/workspace \
+  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
+  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  tuxfy/ai-agents:latest
+```
+
+## Run from Docker Hub with masking symfony secrets:
+
+### Docker
+
+```
+docker run --rm -it \
+  --network bridge \
+  --user "$(id -u)":"$(id -g)" \
+  --mount type=bind,source="$PWD",target=/workspace \
+  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
+  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
+  --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
+  --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
   tuxfy/ai-agents:latest
 ```
@@ -20,6 +48,8 @@ podman run --rm -it \
   --network bridge \
   --userns=keep-id \
   --mount type=bind,source="$PWD",target=/workspace \
+  --mount type=volume,source=ai-agents-codex,target=/home/agent/.codex \
+  --mount type=volume,source=ai-agents-vibe,target=/home/agent/.vibe \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
