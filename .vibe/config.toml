@@ -1,0 +1,30 @@
+# Optional konservativ:
+enable_auto_update = false
+
+# Entspricht "workspace-write" insofern, dass Vibe nur diese Tools benutzen darf.
+# (Die echte Pfad-Isolation kommt bei Vibe nicht aus der Config, sondern aus deiner Laufzeit-Umgebung.)
+enabled_tools = [
+  "read_file",
+  "grep",
+  "write_file",
+  "search_replace",
+  "bash"
+]
+
+# Lesen/Suchen ohne Nachfrage
+[tools.read_file]
+permission = "always"
+
+[tools.grep]
+permission = "always"
+
+# Schreiben nur nach Nachfrage (wie von dir gewünscht)
+[tools.write_file]
+permission = "ask"
+
+[tools.search_replace]
+permission = "ask"
+
+# Commands nur nach Nachfrage (analog zu "on-request")
+[tools.bash]
+permission = "ask"
