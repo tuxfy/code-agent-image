@@ -14,9 +14,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
  && apt-get install -y nodejs
 
-# --- Install Codex CLI + Claude Code ---
-RUN npm install -g @openai/codex @anthropic-ai/claude-code \
- && rm -rf /usr/lib/node_modules/npm \
+# --- Install Codex CLI + Claude Code + Gemini CLI ---
+RUN npm install -g @openai/codex @anthropic-ai/claude-code @google/gemini-cli@latest \
+  && rm -rf /usr/lib/node_modules/npm \
  && rm -f /usr/bin/npm \
  && rm -f /usr/bin/npx
 
@@ -29,12 +29,24 @@ RUN pipx install mistral-vibe
 RUN git config --system --add safe.directory /workspace
 
 RUN useradd -m -u 1000 -s /bin/bash agent \
- && mkdir -p /workspace /home/agent/.codex /home/agent/.vibe /home/agent/.claude \
- && chown -R agent:agent /workspace /home/agent/.codex /home/agent/.vibe /home/agent/.claude
+ && mkdir -p /workspace \
+  /home/agent/.codex \
+  /home/agent/.vibe \
+  /home/agent/.claude \
+  /home/agent/.gemini \
+ && chown -R agent:agent /workspace \
+  /home/agent/.codex \
+  /home/agent/.vibe \
+  /home/agent/.claude \
+  /home/agent/.gemini
 
 RUN mkdir -p /etc/claude-code
 COPY .claude/managed-settings.json /etc/claude-code/managed-settings.json
 RUN chmod 0644 /etc/claude-code/managed-settings.json
+
+RUN mkdir -p /etc/gemini-cli
+COPY .gemini/settings.json /etc/gemini-cli/settings.json
+RUN chmod 0644 /etc/gemini-cli/settings.json
 
 # --- Seed default configs in the agent home ---
 COPY --chown=agent:agent .codex/config.toml /home/agent/.codex/config.toml

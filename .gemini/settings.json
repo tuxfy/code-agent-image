@@ -1,0 +1,12 @@
+{
+	"general": {
+		"defaultApprovalMode": "ask",
+		"autoUpdate": false
+	},
+	"privacy": {
+		"usageStatisticsEnabled": false
+	},
+	"tools": {
+		"excludeTools": ["web_fetch", "browser", "run_network_request"]
+	}
+}
