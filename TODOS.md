@@ -1,3 +1,7 @@
+Node Versions pinnen
+cli versions pinnen
+python version pinnen
+
 Soll/Ist-Matrix: Docker vs. Codex vs. Vibe
 
 A) Dateisystem & Schreibrechte
