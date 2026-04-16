@@ -5,7 +5,6 @@
 ```
 docker run --rm -it \
   --network bridge \
-  --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   tuxfy/ai-agents:latest
@@ -16,7 +15,6 @@ docker run --rm -it \
 ```
 podman run --rm -it \
   --network bridge \
-  --userns=keep-id \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   tuxfy/ai-agents:latest
@@ -29,7 +27,6 @@ podman run --rm -it \
 ```
 docker run --rm -it \
   --network bridge \
-  --user "$(id -u)":"$(id -g)" \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
@@ -51,7 +48,6 @@ docker run --rm -it \
 ```
 podman run --rm -it \
   --network bridge \
-  --userns=keep-id \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
