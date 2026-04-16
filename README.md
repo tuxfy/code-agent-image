@@ -20,6 +20,20 @@ podman run --rm -it \
   tuxfy/ai-agents:latest
 ```
 
+## Use run script within your project (docker)
+
+1. copy run-ai-agent.sh to your project
+2. bash run-ai-agent.sh
+
+Excludes
+
+-   existing .env\* files from docker container
+-   symfony secrets
+
+Mounts
+
+-   volume ai-agents for shared tokens
+
 ## Run from Docker Hub with masking symfony secrets:
 
 ### Docker
@@ -30,15 +44,7 @@ docker run --rm -it \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.dev,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.int,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.local.php,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.pipeline.test,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.prod,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.prodtest,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.stage,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.test,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
   tuxfy/ai-agents:latest
 ```
@@ -51,15 +57,7 @@ podman run --rm -it \
   --mount type=bind,source="$PWD",target=/workspace \
   --mount type=volume,source=ai-agents,target=/home/agent \
   --mount type=bind,source=/dev/null,target=/workspace/.env,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.dev,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.int,ro \
   --mount type=bind,source=/dev/null,target=/workspace/.env.local,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.local.php,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.pipeline.test,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.prod,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.prodtest,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.stage,ro \
-  --mount type=bind,source=/dev/null,target=/workspace/.env.test,ro \
   --mount type=tmpfs,target=/workspace/config/secrets \
   tuxfy/ai-agents:latest
 ```
